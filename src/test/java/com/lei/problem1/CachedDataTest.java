@@ -1,16 +1,14 @@
-package com.lei;
+package com.lei.problem1;
 
 import org.junit.Test;
 
-import java.util.TimerTask;
-
-public class CacheValueTest {
+public class CachedDataTest {
     @Test
     public void testCacheValue() throws InterruptedException {
-        CacheValue cacheValue = new CacheValue();
+        CachedData cacheValue = new CachedData();
         Thread thread = new Thread(() -> {
             while (true) {
-                cacheValue.CacheValue("testValue");
+                cacheValue.processCachedData("testValue");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -20,7 +18,7 @@ public class CacheValueTest {
         });
         Thread thread1 = new Thread(() -> {
             while (true) {
-                cacheValue.CacheValue("testValue");
+                cacheValue.processCachedData("testValue");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -30,7 +28,10 @@ public class CacheValueTest {
         });
          thread.start();
          thread1.start();
-         Thread.sleep(5000);
-
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

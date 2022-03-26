@@ -1,4 +1,4 @@
-package com.lei;
+package com.lei.problem2;
 
 public class SimpleQueue {
 
@@ -19,10 +19,10 @@ public class SimpleQueue {
         first = 0;
         last = 0;
     }
-
-    public void push(Integer num) {
+//including push, pop, peekData, emptyData methods.
+    public void pushData(Integer num) {
         if (currentSize == queueArr.length) {
-            throw new RuntimeException("队列已满");
+            throw new RuntimeException("队列已经满了");
         }
         queueArr[last] = num;
         currentSize++;
@@ -33,9 +33,9 @@ public class SimpleQueue {
         }
     }
 
-    public Integer poll() {
+    public Integer pollData() {
         if (currentSize == 0) {
-            throw new RuntimeException("队列为空");
+            throw new RuntimeException("队列不能为空");
         }
         int tempIndex = first;
        currentSize--;
@@ -47,14 +47,14 @@ public class SimpleQueue {
         return queueArr[tempIndex];
     }
 
-    public Integer peek(){
+    public Integer peekData(){
         if (currentSize == 0){
             return null;
         }
         return queueArr[first];
     }
 
-    public void empty(){
+    public void emptyData(){
         queueArr = new Integer[queueArr.length];
         currentSize = 0;
         first = 0;
@@ -62,7 +62,7 @@ public class SimpleQueue {
     }
 
 
-    public Integer[] getArray() {
+    public Integer[] getArrayData() {
         return queueArr;
     }
 
