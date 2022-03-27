@@ -10,27 +10,40 @@ class CachedData {
 
     public Object processCachedData(String key) {
         rwl.readLock().lock();
-        if (!cacheValid) {
+        try {
+            Object value = data.get(key);
+            if (value!=null) {
+                System.out.println(Thread.currentThread().getName()+"获取的缓存不为空");
+                //  cacheValid=true;
+                return  value;
+            }
+
             rwl.readLock().unlock();
+            //升级写锁，此时需要重新判断value值
             rwl.writeLock().lock();
             try {
-                if (!cacheValid) {
-                    String dataString = "mydata";
-                    System.out.println(Thread.currentThread().getName() + "-----get data from db, the dbdata is :" + dataString);
-                    data.put(key, dataString);
-                    cacheValid = true;
-                    return dataString;
+                Object value2 = data.get(key);
+                if (value2!=null) {
+                    //  cacheValid=true;
+                    return  value2;
                 }
-                rwl.readLock().lock();
+                String dataString = "mydata";
+                System.out.println(Thread.currentThread().getName() + "-----get data from db, the dbdata is :" + dataString);
+                data.put(key, dataString);
+                return dataString;
+
             } finally {
                 rwl.writeLock().unlock();
             }
+        }finally {
+
+            if (rwl.getReadHoldCount()>0) {
+                rwl.readLock().unlock();
+            }
         }
-        try {
-            return getCache(key);
-        } finally {
-            rwl.readLock().unlock();
-        }
+
+
+
     }
 
     private Object getCache(String key) {

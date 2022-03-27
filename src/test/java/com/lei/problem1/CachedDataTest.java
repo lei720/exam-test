@@ -9,27 +9,27 @@ public class CachedDataTest {
         Thread thread = new Thread(() -> {
             while (true) {
                 cacheValue.processCachedData("testValue");
-                try {
+              /*  try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         });
         Thread thread1 = new Thread(() -> {
             while (true) {
                 cacheValue.processCachedData("testValue");
-                try {
+              /*  try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         });
          thread.start();
          thread1.start();
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
